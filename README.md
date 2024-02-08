@@ -5,12 +5,25 @@ This repository is my deep dive into investment and retirement spending.
 ## Cape Expected Returns.xlsx
 This is the source input data. It consists of inflation data by year, stock yields/returns by year, and bond yields/returns by year. 
 
-## Cape Expected Returns 2.xlsx
-This is the output data. It consists of:
+## Saving For Retirement
+- Calculate number of years needed to retire, starting from any year
+    - Based on saving 1 unit per year
+    - Retiring when total savings multiplied by expected return > 1 unit
+- Save money for 20 years, starting from any year
+    - Get total savings multiplied by expected return after 20 years
+    - This represents 
+- Recently, years needed to retire has gone up and spending amount after 20 years 
 
-- Saving/spending amount by year (all stocks, al bonds, 50/50) based on a spending formula determined in the notebook. 
-- For stocks/bonds: actual future returns, actual future inflation, predicted future returns (based on yield), and difference between actual and predicted future returns. 
+## Spending After Retirement
+- Spend a percentage each year based on expected return
+- Plot change in savings and spending amount over time
+- Plot savings and spending on double axis graph
+- Allows us to see how well spending holds up over time
 
-## Investment.ipynb
-This is the notebook that does the deep dive, by reading the input, and writing to the output. 
-
+## Valuation vs Expected Return
+- Get annualised return for next n years, starting from any year
+- Fit annualised return vs starting yield: return predicted values and r squared
+- Print r squared for every value of n
+- For n with highest r squared
+    - Plot predicted annualised return and actual return vs yield
+    - Plot predicted return, actual return, and difference 
