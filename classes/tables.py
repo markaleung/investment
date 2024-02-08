@@ -1,5 +1,5 @@
 import pandas as pd, numpy as np
-from classes import config
+from classes import config, annuity
 
 class _Table:
     def __init__(self, config_ = None):
@@ -23,9 +23,9 @@ class Inflation(_Table):
         self.df['InflationOne'] = self.df.Inflation
 
 class _Asset(_Table):
-    def __init__(self):
+    def __init__(self, config_ = None):
         self.column_one = 'Return'
-        super().__init__()
+        super().__init__(config_ = config_)
     def _make_real(self, inflation):
         self.df.Return = self.df.Return - inflation
     def _get_expected(self):
@@ -44,15 +44,24 @@ class Bond(_Asset):
         self.df['expected'] = (np.log(self.df.Yield) * 0.0386 + 0.1354)
 
 class Tables:
-    def __init__(self):
-        self.inflation = Inflation()
-        self.stock = Stock()
-        self.bond = Bond()
+    def __init__(self, config_ = None):
+        self.config = config_ if config_ else config.Config()
+        self.inflation = Inflation(config_ = self.config)
+        self.stock = Stock(config_ = self.config)
+        self.bond = Bond(config_ = self.config)
         self._make_real()
         self._get_expected()
+        self.annuity = annuity.Increment()
     def _make_real(self):
         self.stock._make_real(self.inflation.df.Inflation)
         self.bond._make_real(self.inflation.df.Inflation)
     def _get_expected(self):
         self.stock._get_expected()
         self.bond._get_expected()
+    def make_mix(self, allocation: float):
+        self.mix = pd.DataFrame({
+            'Return': allocation * self.stock.df.Return + (1-allocation) * self.bond.df.Return, 
+            'expected': allocation * self.stock.df.expected + (1-allocation) * self.bond.df.expected
+        })
+        self.mix.index = self.stock.df.Start
+        self.mix['annuity'] = self.annuity.convert_to_annuity(self.mix.expected)
