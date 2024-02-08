@@ -58,10 +58,10 @@ class Tables:
     def _get_expected(self):
         self.stock._get_expected()
         self.bond._get_expected()
-    def make_mix(self, allocation: float):
+    def make_mix(self):
         self.mix = pd.DataFrame({
-            'Return': allocation * self.stock.df.Return + (1-allocation) * self.bond.df.Return, 
-            'expected': allocation * self.stock.df.expected + (1-allocation) * self.bond.df.expected
+            'Return': self.config.allocation * self.stock.df.Return + (1-self.config.allocation) * self.bond.df.Return, 
+            'expected': self.config.allocation * self.stock.df.expected + (1-self.config.allocation) * self.bond.df.expected
         })
         self.mix.index = self.stock.df.Start
         self.mix['annuity'] = self.annuity.convert_to_annuity(self.mix.expected)

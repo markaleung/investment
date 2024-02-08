@@ -1,9 +1,8 @@
 class Config:
     def __init__(self):
         self._tables()
-        self._save_for_retirement()
+        self._all_years()
     def _tables(self):
         self.filename = 'Cape Expected Return.xlsx'
-    def _save_for_retirement(self):
-        self.years_save = 20
-        self.allocations = [0.5, 1]
+    def _all_years(self):
+        self.allocation = 0.5
