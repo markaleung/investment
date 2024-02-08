@@ -5,5 +5,5 @@ class Config:
     def _tables(self):
         self.filename = 'Cape Expected Return.xlsx'
     def _save_for_retirement(self):
-        self.years_save = 35
+        self.years_save = 20
         self.allocations = [0.5, 1]
