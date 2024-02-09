@@ -35,13 +35,13 @@ class Stock(_Asset):
     def _set_subclass_variables(self):
         self.sheet_name = 'Stock'
     def _get_expected(self):    
-        self.df['expected'] = (1.1922/self.df.Cape - 0.0139)
+        self.df['expected'] = (1.1922/self.df.Cape - 0.0139)# * 0.7
 
 class Bond(_Asset):
     def _set_subclass_variables(self):
         self.sheet_name = 'Bond'
     def _get_expected(self):    
-        self.df['expected'] = (np.log(self.df.Yield) * 0.0386 + 0.1354)
+        self.df['expected'] = (np.log(self.df.Yield) * 0.0386 + 0.1354)# * 0.8
 
 class Tables:
     def __init__(self, config_ = None):
@@ -60,8 +60,8 @@ class Tables:
         self.bond._get_expected()
     def make_mix(self):
         self.mix = pd.DataFrame({
-            'Return': self.config.allocation * self.stock.df.Return + (1-self.config.allocation) * self.bond.df.Return, 
+            'start': self.stock.df.Start, 
+            'return_': self.config.allocation * self.stock.df.Return + (1-self.config.allocation) * self.bond.df.Return, 
             'expected': self.config.allocation * self.stock.df.expected + (1-self.config.allocation) * self.bond.df.expected
         })
-        self.mix.index = self.stock.df.Start
         self.mix['annuity'] = self.annuity.convert_to_annuity(self.mix.expected)

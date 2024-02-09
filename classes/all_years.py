@@ -9,21 +9,23 @@ class AllYears:
     def _run_start_year(self):
         self.total = 0
         self.return_ = 1
-        for year_current, row in enumerate(self.tables.mix.loc[self.year_start:].itertuples()):
-            self.year_current = year_current
+        for index_current, row in enumerate(self.tables.mix[self.index_start:].itertuples()):
+            self.index_current = index_current
             self.row = row
-            self.total = (self.total + 1) * row.Return
-            self.return_ *= row.Return
+            self.total = (self.total + 1) * row.return_
+            self.return_ *= row.return_
             self.dict.append({
                 'start': self.year_start, 
-                'year': self.year_current, 
+                'year': self.index_current + 1, 
                 'total': self.total, 
                 'annuity': self.total * row.annuity, 
-                'annualised': self.return_  ** (1/(self.year_current+1)) - 1, 
+                'expected': self.total * row.expected, 
+                'annualised': self.return_ ** (1/(self.index_current+1)) - 1, 
             })
     def _run_start_years(self):
-        for year_start in self.tables.mix.index:
-            self.year_start = year_start
+        for index_start in self.tables.mix.index:
+            self.index_start = index_start
+            self.year_start = self.tables.mix.start[self.index_start]
             self._run_start_year()
     def _make_df(self):
         self.df = pd.DataFrame(self.dict)
