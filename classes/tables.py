@@ -62,6 +62,7 @@ class Tables:
         self.mix = pd.DataFrame({
             'start': self.stock.df.Start, 
             'return_': self.config.allocation * self.stock.df.Return + (1-self.config.allocation) * self.bond.df.Return, 
-            'expected': self.config.allocation * self.stock.df.expected + (1-self.config.allocation) * self.bond.df.expected
+            'expected': self.config.allocation * self.stock.df.expected + (1-self.config.allocation) * self.bond.df.expected, 
+            'inflation': self.inflation.df.InflationOne, 
         })
         self.mix['annuity'] = self.annuity.convert_to_annuity(self.mix.expected)
