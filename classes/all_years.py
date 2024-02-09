@@ -53,7 +53,7 @@ class Stock(_Yield):
         self.config.allocation = 1
         self.df_asset = self.tables.stock.df
 
-class Stock(_Yield):
+class Bond(_Yield):
     def _set_subclass_variables(self):
         self.config.allocation = 0
         self.df_asset = self.tables.bond.df
