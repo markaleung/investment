@@ -18,12 +18,19 @@ class CurveFit:
         self.squares_total = np.sum((self.y - np.mean(self.y)) ** 2)
     def _make_r_squared(self):
         self.r_squared = 1 - (self.squares_residual / self.squares_total)
+    def _make_dictionary(self):
+        self.dict = {
+            'a': self.a, 
+            'b': self.b, 
+            'r_squared': self.r_squared
+        }
     def main(self):
         self._fit_curve()
         self._make_predictions()
         self._make_residuals()
         self._make_sum_of_squares()
         self._make_r_squared()
+        self._make_dictionary()
 
 FUNCTIONS = {
     'log': lambda x, a, b: a * np.log(x) + b, 
