@@ -3,6 +3,6 @@ class Config:
         self._tables()
         self._all_years()
     def _tables(self):
-        self.filename = 'Cape Expected Return.xlsx'
+        self.filename = 'resource_files/Cape Expected Return.xlsx'
     def _all_years(self):
         self.allocation = 0.5
