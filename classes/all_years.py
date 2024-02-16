@@ -42,14 +42,14 @@ class _Yield(AllYears):
     def _set_subclass_variables(self):
         pass
     def _join_yield(self):
-        self.df_yield = pd.merge(self.df[['start', 'year', 'annualised']], self.df_asset[['Start', 'Yield']], left_on = 'start', right_on = 'Start')
+        self.df = pd.merge(self.df, self.df_asset[['Start', 'Yield']], left_on = 'start', right_on = 'Start').drop('Start', axis = 1)
     def _make_prediction(self):
-        self.condition = self.df_yield.year == self.year
-        self.filtered = self.df_yield[self.condition]
+        self.condition = self.df.year == self.year
+        self.filtered = self.df[self.condition]
         self.curve_fit = curve_fit.CurveFit(x = self.filtered.Yield, y = self.filtered.annualised, function_name = self.function_name)
         self.curve_fit.main()
         # .loc is needed so that the prediction is added to self.join, not a copy
-        self.df_yield.loc[self.condition, 'prediction'] = self.curve_fit.prediction
+        self.df.loc[self.condition, 'prediction'] = self.curve_fit.prediction
         self.curve_fit.dict['year'] = self.year
         self.df_year.append(self.curve_fit.dict.copy())
     def _make_df_year(self):
@@ -59,12 +59,12 @@ class _Yield(AllYears):
         self._set_subclass_variables()
         super().main()
         self._join_yield()
-        for self.year in range(1, self.df_yield.year.max()):
+        for self.year in range(1, self.df.year.max()):
             self._make_prediction()
         self._make_df_year()
     def plot(self, year):
-        self.ax1 = self.df_yield.query('year == @year')[['Yield', 'annualised']].plot(kind = 'scatter', x = 'Yield', y = 'annualised')
-        self.df_yield.query('year == @year')[['Yield', 'prediction']].plot(kind = 'scatter', x = 'Yield', y = 'prediction', ax = self.ax1)
+        self.ax1 = self.df.query('year == @year')[['Yield', 'annualised']].plot(kind = 'scatter', x = 'Yield', y = 'annualised')
+        self.df.query('year == @year')[['Yield', 'prediction']].plot(kind = 'scatter', x = 'Yield', y = 'prediction', ax = self.ax1)
 
 class Stock(_Yield):
     def _set_subclass_variables(self):
