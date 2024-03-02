@@ -1,6 +1,6 @@
 import pandas as pd, numpy as np
 
-filename = 'Cape Expected Return.xlsx'
+filename = '../resource_files/Cape Expected Return.xlsx'
 def addOne(df, column):
     df[column] = df[column] + 1
 def makeReal(df):
