@@ -2,31 +2,25 @@
 
 This repository is my deep dive into investment and retirement spending. 
 
-## Cape Expected Returns.xlsx
+## resource_files/Cape Expected Returns.xlsx
 This is the source input data. It consists of inflation data by year, stock yields/returns by year, and bond yields/returns by year. 
 
-## Saving For Retirement
-- Calculate number of years needed to retire, starting from any year
-    - Based on saving 1 unit per year
-    - Retiring when total savings multiplied by expected return > 1 unit
-- Save money for 20 years, starting from any year
-    - Get total savings multiplied by expected return after 20 years
-    - This represents 
-- Recently, years needed to retire has gone up and spending amount after 20 years 
+## How to Install the Repository
+- Install Python (optional virtual environment)
+- Install modules with `pip install -r requirements.txt`
+- Install Google Sheets and Google Drive API
 
-## Spending After Retirement
-- Spend a percentage each year based on expected return
-- Plot change in savings and spending amount over time
-- Plot savings and spending on double axis graph
-- Allows us to see how well spending holds up over time
+## How to Run the Repository
+- Run `notebooks/Investment.ipynb`
+- It runs 3 versions of the AllYears Class
+    - Stock and Bond include curve fitting
+    - Half (stocks and bonds) does not
+- It writes data by year (all versions), and curve fit by year length (stock and bond) to google sheets
 
-## Valuation vs Expected Return
-- Get annualised return for next n years, starting from any year
-- Fit annualised return vs starting yield: return predicted values and r squared
-- Print r squared for every value of n
-- For n with highest r squared
-    - Plot predicted annualised return and actual return vs yield
-    - Plot predicted return, actual return, and difference 
+## Dashboard
+The [Dashboard](https://lookerstudio.google.com/reporting/ec1f9e90-886d-4ba4-b296-8d0493d0dc4e) contains 6 graphs:
+- Graphs 1, 2, and 3 combine the data by year for Stocks, Bonds, and Half
+- Graphs 4, 5, and 6 use the curve fit by year length
 
 # Trees
 
@@ -36,7 +30,6 @@ This is the source input data. It consists of inflation data by year, stock yiel
         - table: excel data for stock, bond, inflation
         - annuity: use expected return to calculate annuity yield
     - curve_fit: fit yield to return (all stock/bond only)
-
 ## Class Tree
 - AllYears
     - _Yield: fit yield to return, different allocation/table/curve function
@@ -50,7 +43,6 @@ This is the source input data. It consists of inflation data by year, stock yiel
     - _Asset: subtract inflation, different formula for expected return
         - Stock: linear formula
         - Bond: log formula
-
 ## Function Tree
 - all_years.__init__
     - tables.__init__
