@@ -10,25 +10,22 @@ class AllYears:
         self.total = 0
         self.total_cash = 0
         self.return_ = 1
-        for index_current, row in enumerate(self.tables.mix[self.index_start:].itertuples()):
-            self.index_current = index_current
-            self.row = row
-            self.total = (self.total + 1) * row.return_
-            self.total_cash = (self.total_cash + 1) / row.inflation
-            self.return_ *= row.return_
+        for self.index_current, self.row in enumerate(self.tables.mix[self.index_start:].itertuples()):
+            self.total = (self.total + 1) * self.row.return_
+            self.total_cash = (self.total_cash + 1) / self.row.inflation
+            self.return_ *= self.row.return_
             self.dict.append({
                 'start': self.year_start, 
                 'year': self.index_current + 1, 
                 'total': self.total, 
                 'total_cash': self.total_cash, 
                 'ratio': self.total / self.total_cash, 
-                'annuity': self.total * row.annuity, 
-                'expected': self.total * row.expected, 
+                'annuity': self.total * self.row.annuity, 
+                'expected': self.total * self.row.expected, 
                 'annualised': self.return_ ** (1/(self.index_current+1)) - 1, 
             })
     def _run_start_years(self):
-        for index_start in self.tables.mix.index:
-            self.index_start = index_start
+        for self.index_start in self.tables.mix.index:
             self.year_start = self.tables.mix.start[self.index_start]
             self._run_start_year()
     def _make_df(self):
